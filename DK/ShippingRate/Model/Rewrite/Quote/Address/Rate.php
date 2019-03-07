@@ -33,36 +33,36 @@ class Rate extends \Magento\Quote\Model\Quote\Address\Rate
             );
         } elseif ($rate instanceof \Magento\Quote\Model\Quote\Address\RateResult\Method) {
 
-        	$quote = $this->getCheckoutSession()->getQuote();
-			$items = $quote->getAllItems();
+	     $quote = $this->getCheckoutSession()->getQuote();
+	     $items = $quote->getAllItems();
 
-			$finalQty = 0;
-			foreach($items as $item) {
-			   $finalQty = $finalQty + $item->getQty();
-			}
- 			$finalQty = $finalQty - 1;
+	     $finalQty = 0;
+	     foreach($items as $item) {
+		$finalQty = $finalQty + $item->getQty();
+	     }
+	     $finalQty = $finalQty - 1;
 
- 			if($finalQty > 0) {
- 				$finalPrice = $rate->getPrice() + ($finalQty * 5);
- 			} else {
- 				$finalPrice = $rate->getPrice();
- 			}
+	     if($finalQty > 0) {
+		$finalPrice = $rate->getPrice() + ($finalQty * 5); // Add custom shipping price here 
+	     } else {
+		$finalPrice = $rate->getPrice();
+	     }
 
-            $this->setCode(
-                $rate->getCarrier() . '_' . $rate->getMethod()
-            )->setCarrier(
-                $rate->getCarrier()
-            )->setCarrierTitle(
-                $rate->getCarrierTitle()
-            )->setMethod(
-                $rate->getMethod()
-            )->setMethodTitle(
-                $rate->getMethodTitle()
-            )->setMethodDescription(
-                $rate->getMethodDescription()
-            )->setPrice(
-                $finalPrice
-            );
+	    $this->setCode(
+		$rate->getCarrier() . '_' . $rate->getMethod()
+	    )->setCarrier(
+		$rate->getCarrier()
+	    )->setCarrierTitle(
+		$rate->getCarrierTitle()
+	    )->setMethod(
+		$rate->getMethod()
+	    )->setMethodTitle(
+		$rate->getMethodTitle()
+	    )->setMethodDescription(
+		$rate->getMethodDescription()
+	    )->setPrice(
+		$finalPrice
+	    );
         }
         return $this;
     }
